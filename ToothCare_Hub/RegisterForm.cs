@@ -16,5 +16,25 @@ namespace ToothCare_Hub
         {
             InitializeComponent();
         }
+
+        private void CloseRegisterForm_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void SurnameField_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NameField_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RegButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            
+        }
     }
 }
