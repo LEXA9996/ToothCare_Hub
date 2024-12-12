@@ -33,6 +33,7 @@
             TextRegister = new Panel();
             RegisterText = new Label();
             MainPanelRegister = new Panel();
+            HideLoginLabel = new Label();
             RegButton = new Button();
             CopyPassField = new TextBox();
             PassField = new TextBox();
@@ -50,14 +51,16 @@
             CloseRegisterForm.AutoSize = true;
             CloseRegisterForm.BackColor = Color.FromArgb(164, 185, 255);
             CloseRegisterForm.Cursor = Cursors.Hand;
-            CloseRegisterForm.Font = new Font("Segoe UI", 15F);
+            CloseRegisterForm.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 204);
             CloseRegisterForm.ForeColor = Color.Black;
-            CloseRegisterForm.Location = new Point(559, 0);
+            CloseRegisterForm.Location = new Point(555, -1);
             CloseRegisterForm.Name = "CloseRegisterForm";
-            CloseRegisterForm.Size = new Size(24, 28);
+            CloseRegisterForm.Size = new Size(28, 32);
             CloseRegisterForm.TabIndex = 0;
             CloseRegisterForm.Text = "X";
             CloseRegisterForm.Click += CloseRegisterForm_Click;
+            CloseRegisterForm.MouseLeave += CloseRegisterForm_MouseLeave;
+            CloseRegisterForm.MouseMove += CloseRegisterForm_MouseMove;
             // 
             // CloseAndMoveForm
             // 
@@ -67,6 +70,8 @@
             CloseAndMoveForm.Name = "CloseAndMoveForm";
             CloseAndMoveForm.Size = new Size(582, 31);
             CloseAndMoveForm.TabIndex = 1;
+            CloseAndMoveForm.MouseDown += CloseAndMoveForm_MouseDown;
+            CloseAndMoveForm.MouseMove += CloseAndMoveForm_MouseMove;
             // 
             // TextRegister
             // 
@@ -90,6 +95,7 @@
             // MainPanelRegister
             // 
             MainPanelRegister.BackColor = Color.FromArgb(163, 255, 241);
+            MainPanelRegister.Controls.Add(HideLoginLabel);
             MainPanelRegister.Controls.Add(RegButton);
             MainPanelRegister.Controls.Add(CopyPassField);
             MainPanelRegister.Controls.Add(PassField);
@@ -102,8 +108,24 @@
             MainPanelRegister.Size = new Size(583, 444);
             MainPanelRegister.TabIndex = 3;
             // 
+            // HideLoginLabel
+            // 
+            HideLoginLabel.AutoSize = true;
+            HideLoginLabel.Cursor = Cursors.Hand;
+            HideLoginLabel.Font = new Font("Segoe UI", 10F);
+            HideLoginLabel.Location = new Point(233, 414);
+            HideLoginLabel.Name = "HideLoginLabel";
+            HideLoginLabel.Size = new Size(105, 19);
+            HideLoginLabel.TabIndex = 6;
+            HideLoginLabel.Text = "Нету аккаунта?";
+            HideLoginLabel.MouseLeave += HideLoginLabel_MouseLeave;
+            HideLoginLabel.MouseMove += HideLoginLabel_MouseMove;
+            // 
             // RegButton
             // 
+            RegButton.Cursor = Cursors.Hand;
+            RegButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 10, 255);
+            RegButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(17, 21, 112);
             RegButton.Font = new Font("Segoe UI Emoji", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
             RegButton.Location = new Point(181, 324);
             RegButton.Name = "RegButton";
@@ -111,55 +133,73 @@
             RegButton.TabIndex = 5;
             RegButton.Text = "Зарегестирироваться";
             RegButton.UseVisualStyleBackColor = true;
-            RegButton.MouseMove += RegButton_MouseMove;
             // 
             // CopyPassField
             // 
+            CopyPassField.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 204);
             CopyPassField.Location = new Point(317, 218);
             CopyPassField.Multiline = true;
             CopyPassField.Name = "CopyPassField";
             CopyPassField.Size = new Size(232, 51);
             CopyPassField.TabIndex = 4;
+            CopyPassField.Enter += CopyPassField_Enter;
+            CopyPassField.Leave += CopyPassField_Leave;
             // 
             // PassField
             // 
+            PassField.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 204);
             PassField.Location = new Point(38, 218);
             PassField.Multiline = true;
             PassField.Name = "PassField";
             PassField.Size = new Size(232, 51);
             PassField.TabIndex = 4;
+            PassField.WordWrap = false;
+            PassField.Enter += PassField_Enter;
+            PassField.Leave += PassField_Leave;
             // 
             // SurnameField
             // 
+            SurnameField.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 204);
             SurnameField.Location = new Point(317, 42);
             SurnameField.Multiline = true;
             SurnameField.Name = "SurnameField";
             SurnameField.Size = new Size(232, 51);
             SurnameField.TabIndex = 3;
+            SurnameField.Enter += SurnameField_Enter;
+            SurnameField.Leave += SurnameField_Leave;
             // 
             // MailField
             // 
+            MailField.Font = new Font("Segoe UI", 13F, FontStyle.Regular, GraphicsUnit.Point, 204);
             MailField.Location = new Point(38, 140);
             MailField.Multiline = true;
             MailField.Name = "MailField";
             MailField.Size = new Size(232, 51);
             MailField.TabIndex = 2;
+            MailField.Enter += MailField_Enter;
+            MailField.Leave += MailField_Leave;
             // 
             // NickField
             // 
+            NickField.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 204);
             NickField.Location = new Point(317, 140);
             NickField.Multiline = true;
             NickField.Name = "NickField";
             NickField.Size = new Size(232, 51);
             NickField.TabIndex = 1;
+            NickField.Enter += NickField_Enter;
+            NickField.Leave += NickField_Leave;
             // 
             // NameField
             // 
+            NameField.Font = new Font("Segoe UI", 14F, FontStyle.Regular, GraphicsUnit.Point, 204);
             NameField.Location = new Point(38, 42);
             NameField.Multiline = true;
             NameField.Name = "NameField";
             NameField.Size = new Size(232, 51);
             NameField.TabIndex = 0;
+            NameField.Enter += NameField_Enter;
+            NameField.Leave += NameField_Leave;
             // 
             // RegisterForm
             // 
@@ -194,5 +234,6 @@
         private TextBox NickField;
         private TextBox NameField;
         private TextBox CopyPassField;
+        private Label HideLoginLabel;
     }
 }
