@@ -1,36 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace ToothCare_Hub
+﻿namespace ToothCare_Hub
 {
     public partial class RegisterForm : Form
     {
+
+
         public RegisterForm()
         {
             InitializeComponent();
-            //Text
-            NameField.Text = "Введите имя";
-            SurnameField.Text = "Введите фамилию";
-            NickField.Text = "Придумайте свой логин";
-            MailField.Text = "Введите свою электронную почту";
-            PassField.Text = "Придумайте пароль";
-            CopyPassField.Text = "Повторите пароль";
-            //color
-            NameField.ForeColor = Color.FromArgb(128, 128, 128);
-            SurnameField.ForeColor = Color.FromArgb(128, 128, 128);
-            NickField.ForeColor = Color.FromArgb(128, 128, 128);
-            MailField.ForeColor = Color.FromArgb(128, 128, 128);
-            PassField.ForeColor = Color.FromArgb(128, 128, 128);
-            CopyPassField.ForeColor = Color.FromArgb(128, 128, 128);
 
-
+            var initControls = new InitControls(this);
+            initControls.InitControl();
         }
 
         private void CloseRegisterForm_Click(object sender, EventArgs e)
@@ -38,7 +17,6 @@ namespace ToothCare_Hub
             Application.Exit();
 
         }
-        //move panel
         Point lastPoint;
 
         private void CloseAndMoveForm_MouseMove(object sender, MouseEventArgs e)
@@ -202,8 +180,7 @@ namespace ToothCare_Hub
 
         private void HideLoginLabel_MouseLeave(object sender, EventArgs e)
         {
-            HideLoginLabel.ForeColor = Color.FromArgb(0,0,0);
+            HideLoginLabel.ForeColor = Color.FromArgb(0, 0, 0);
         }
-        
     }
 }
