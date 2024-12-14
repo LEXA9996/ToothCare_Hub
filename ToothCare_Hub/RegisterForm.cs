@@ -82,7 +82,7 @@
         {
             if (NickField.Text == "Придумайте свой логин")
             {
-                NickField.Text = "";
+                NickField.Text = string.empty;
                 NickField.ForeColor = Color.FromArgb(0, 0, 0);
             }
         }
