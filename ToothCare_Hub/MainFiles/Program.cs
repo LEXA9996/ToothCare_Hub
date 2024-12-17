@@ -1,4 +1,4 @@
-namespace ToothCare_Hub
+namespace ToothCare_Hub.MainFiles
 {
     internal static class Program
     {

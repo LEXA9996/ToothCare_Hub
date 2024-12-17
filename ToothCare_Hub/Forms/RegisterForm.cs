@@ -29,6 +29,7 @@ namespace ToothCare_Hub
             MailField.ForeColor = Color.FromArgb(128, 128, 128);
             PassField.ForeColor = Color.FromArgb(128, 128, 128);
             CopyPassField.ForeColor = Color.FromArgb(128, 128, 128);
+            this.StartPosition = FormStartPosition.CenterScreen;
 
 
         }
@@ -202,8 +203,19 @@ namespace ToothCare_Hub
 
         private void HideLoginLabel_MouseLeave(object sender, EventArgs e)
         {
-            HideLoginLabel.ForeColor = Color.FromArgb(0,0,0);
+            HideLoginLabel.ForeColor = Color.FromArgb(0, 0, 0);
         }
-        
+
+        private void HideLoginLabel_Click(object sender, EventArgs e)
+        {
+            Hide();
+            LoginForm loginform = new LoginForm();
+            loginform.Show();
+            lastPoint = this.Location;
+            loginform.StartPosition = FormStartPosition.Manual;
+            loginform.Location = lastPoint;
+        }
+
+
     }
 }

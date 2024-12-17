@@ -115,9 +115,10 @@
             HideLoginLabel.Font = new Font("Segoe UI", 10F);
             HideLoginLabel.Location = new Point(233, 414);
             HideLoginLabel.Name = "HideLoginLabel";
-            HideLoginLabel.Size = new Size(105, 19);
+            HideLoginLabel.Size = new Size(96, 19);
             HideLoginLabel.TabIndex = 6;
-            HideLoginLabel.Text = "Нету аккаунта?";
+            HideLoginLabel.Text = "Есть Аккаунт?";
+            HideLoginLabel.Click += HideLoginLabel_Click;
             HideLoginLabel.MouseLeave += HideLoginLabel_MouseLeave;
             HideLoginLabel.MouseMove += HideLoginLabel_MouseMove;
             // 
