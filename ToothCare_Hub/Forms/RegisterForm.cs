@@ -294,33 +294,26 @@ namespace ToothCare_Hub
                 DB db = new DB();
                 DataTable table = new DataTable();
                 MySqlDataAdapter adapter = new MySqlDataAdapter();
-                MySqlCommand command = new MySqlCommand("SELECT * FROM `users` WHERE  `nick`=@nick AND `mail`=@mail", db.getConnection());
+                MySqlCommand command = new MySqlCommand("SELECT * FROM `users` WHERE `nick`=@nick OR `mail`=@mail", db.getConnection());
                 command.Parameters.Add("@nick", MySqlDbType.VarChar).Value = NickField.Text;
                 command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = MailField.Text;
+
                 adapter.SelectCommand = command;
                 adapter.Fill(table);
 
 
                 if (table.Rows.Count > 0)
                 {
-                    string existingNick = table.Rows[0]["nick"].ToString();
-                    string existingMail = table.Rows[0]["mail"].ToString();
-                    if (existingNick == NickField.Text)
+                    if (table.Rows[0]["nick"].ToString() == NickField.Text)
                     {
                         MessageBox.Show("Такой логин уже есть. Введите новый", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return true;
                     }
-                    if (existingMail == MailField.Text)
+                    if (table.Rows[0]["mail"].ToString() == MailField.Text)
                     {
                         MessageBox.Show("Такая почта уже есть. Введите новый", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return true;
                     }
-                    if (existingNick == NickField.Text && existingMail == MailField.Text)
-                    {
-                        MessageBox.Show("Такая учётная запись есть!", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return true;
-                    }
-
                 }
                     return false;
             }
