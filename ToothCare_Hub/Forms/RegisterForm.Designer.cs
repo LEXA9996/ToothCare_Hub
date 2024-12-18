@@ -33,8 +33,8 @@
             TextRegister = new Panel();
             RegisterText = new Label();
             MainPanelRegister = new Panel();
+            CreateAccountButton = new Button();
             HideLoginLabel = new Label();
-            RegButton = new Button();
             CopyPassField = new TextBox();
             PassField = new TextBox();
             SurnameField = new TextBox();
@@ -95,8 +95,8 @@
             // MainPanelRegister
             // 
             MainPanelRegister.BackColor = Color.FromArgb(163, 255, 241);
+            MainPanelRegister.Controls.Add(CreateAccountButton);
             MainPanelRegister.Controls.Add(HideLoginLabel);
-            MainPanelRegister.Controls.Add(RegButton);
             MainPanelRegister.Controls.Add(CopyPassField);
             MainPanelRegister.Controls.Add(PassField);
             MainPanelRegister.Controls.Add(SurnameField);
@@ -108,6 +108,17 @@
             MainPanelRegister.Size = new Size(583, 444);
             MainPanelRegister.TabIndex = 3;
             // 
+            // CreateAccountButton
+            // 
+            CreateAccountButton.Font = new Font("Segoe UI Emoji", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            CreateAccountButton.Location = new Point(183, 314);
+            CreateAccountButton.Name = "CreateAccountButton";
+            CreateAccountButton.Size = new Size(228, 67);
+            CreateAccountButton.TabIndex = 7;
+            CreateAccountButton.Text = "Зарегистрироваться";
+            CreateAccountButton.UseVisualStyleBackColor = true;
+            CreateAccountButton.Click += this.CreateAccountButton_Click;
+            // 
             // HideLoginLabel
             // 
             HideLoginLabel.AutoSize = true;
@@ -115,24 +126,12 @@
             HideLoginLabel.Font = new Font("Segoe UI", 10F);
             HideLoginLabel.Location = new Point(233, 414);
             HideLoginLabel.Name = "HideLoginLabel";
-            HideLoginLabel.Size = new Size(105, 19);
+            HideLoginLabel.Size = new Size(96, 19);
             HideLoginLabel.TabIndex = 6;
-            HideLoginLabel.Text = "Нету аккаунта?";
+            HideLoginLabel.Text = "Есть Аккаунт?";
+            HideLoginLabel.Click += HideLoginLabel_Click;
             HideLoginLabel.MouseLeave += HideLoginLabel_MouseLeave;
             HideLoginLabel.MouseMove += HideLoginLabel_MouseMove;
-            // 
-            // RegButton
-            // 
-            RegButton.Cursor = Cursors.Hand;
-            RegButton.FlatAppearance.MouseDownBackColor = Color.FromArgb(0, 10, 255);
-            RegButton.FlatAppearance.MouseOverBackColor = Color.FromArgb(17, 21, 112);
-            RegButton.Font = new Font("Segoe UI Emoji", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            RegButton.Location = new Point(181, 324);
-            RegButton.Name = "RegButton";
-            RegButton.Size = new Size(232, 69);
-            RegButton.TabIndex = 5;
-            RegButton.Text = "Зарегестирироваться";
-            RegButton.UseVisualStyleBackColor = true;
             // 
             // CopyPassField
             // 
@@ -227,7 +226,6 @@
         private Panel TextRegister;
         private Label RegisterText;
         private Panel MainPanelRegister;
-        private Button RegButton;
         private TextBox PassField;
         private TextBox SurnameField;
         private TextBox MailField;
@@ -235,5 +233,6 @@
         private TextBox NameField;
         private TextBox CopyPassField;
         private Label HideLoginLabel;
+        private Button CreateAccountButton;
     }
 }

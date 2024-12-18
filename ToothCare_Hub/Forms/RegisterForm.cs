@@ -49,7 +49,7 @@
 
 
 
-
+        #region Input information / Delete information
         //Input information
         private void NameField_Enter(object sender, EventArgs e)
         {
@@ -172,6 +172,9 @@
                 PassField.PasswordChar = '*';
             }
         }
+
+        #endregion
+
         //go over login Form
         private void HideLoginLabel_MouseMove(object sender, MouseEventArgs e)
         {
