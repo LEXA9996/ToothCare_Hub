@@ -9,7 +9,7 @@ namespace ToothCare_Hub.MainFiles
 {
     internal class DB
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;datebase=toothcare_hub");
+        MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=toothcare_hub");
 
         public void openConnection()
         {

@@ -98,6 +98,7 @@ namespace ToothCare_Hub
                 PasswordInput.PasswordChar = '\0';
             }
         }
+        #region label click
         // label click
         private void RegisterAcc_MouseLeave(object sender, EventArgs e)
         {
@@ -118,7 +119,7 @@ namespace ToothCare_Hub
         {
             ForgotPassword.ForeColor = Color.FromArgb(0, 0, 0);
         }
-
+        #endregion
         private void RegisterAcc_Click(object sender, EventArgs e)
         {
             Hide();
@@ -128,5 +129,11 @@ namespace ToothCare_Hub
             registerForm.StartPosition = FormStartPosition.Manual;
             registerForm.Location = lastPoint;
         }
+
+        private void EnterAccount_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

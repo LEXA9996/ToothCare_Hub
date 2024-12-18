@@ -1,4 +1,5 @@
 ﻿using System;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ToothCare_Hub.MainFiles;
 
 namespace ToothCare_Hub
 {
@@ -72,7 +74,7 @@ namespace ToothCare_Hub
 
 
 
-
+        #region Input information / Delete information
         //Input information
         private void NameField_Enter(object sender, EventArgs e)
         {
@@ -195,6 +197,9 @@ namespace ToothCare_Hub
                 PassField.PasswordChar = '*';
             }
         }
+
+        #endregion
+
         //go over login Form
         private void HideLoginLabel_MouseMove(object sender, MouseEventArgs e)
         {
@@ -215,7 +220,119 @@ namespace ToothCare_Hub
             loginform.StartPosition = FormStartPosition.Manual;
             loginform.Location = lastPoint;
         }
+        #region/error
+        private void CreateAccountButton_Click(object sender, EventArgs e)
+        {
+            if (NameField.Text == "Введите имя")
+            {
+                MessageBox.Show("Вы забыли вести своё имя.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (SurnameField.Text == "Введите фамилию")
+            {
+                MessageBox.Show("Вы забыли вести свою фамилию.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (MailField.Text == "Введите свою электронную почту")
+            {
+                MessageBox.Show("Вы забыли вести свою электронную почту.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (NickField.Text == "Придумайте свой логин")
+            {
+                MessageBox.Show("Вы забыли вести свой логин.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (PassField.Text == "Придумайте пароль")
+            {
+                MessageBox.Show("Вы забыли вести пароль.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (CopyPassField.Text == "Повторите пароль")
+            {
+                MessageBox.Show("Вы забыли повторить пароль.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (PassField.Text != CopyPassField.Text)
+            {
+                MessageBox.Show("Пароли не совпадают.\nВведите пароль заного.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if(isUserExist())
+                return;
+            #endregion
+
+            DB db = new DB();
+            MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`name`, `surname`, `nick`, `mail`, `password`) VALUES (@name, @surname, @nick, @mail, @pass);", db.getConnection());
+            command.Parameters.Add("@name", MySqlDbType.VarChar).Value = NameField.Text;
+            command.Parameters.Add("@surname", MySqlDbType.VarChar).Value = SurnameField.Text;
+            command.Parameters.Add("@nick", MySqlDbType.VarChar).Value = NickField.Text;
+            command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = MailField.Text;
+            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = CopyPassField.Text;
+
+            db.openConnection();
+
+            if (command.ExecuteNonQuery() == 1)
+            {
+                MessageBox.Show("Вы успешно зарегестрировались! Ввойдите теперь свой аккаунт", "Операция прошла успешно.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Hide();
+                LoginForm loginForm = new LoginForm();
+                loginForm.Show();
+                loginForm.StartPosition = FormStartPosition.CenterParent;
+            }
+            else
+            {
+                MessageBox.Show("Вы не смогли зарегестироваться, попробуйте ещё раз", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            db.closeConnection();
+
+        }
+        public bool isUserExist()
+        {
+            try
+            {
+                DB db = new DB();
+                DataTable table = new DataTable();
+                MySqlDataAdapter adapter = new MySqlDataAdapter();
+                MySqlCommand command = new MySqlCommand("SELECT * FROM `users` WHERE  `nick`=@nick AND `mail`=@mail", db.getConnection());
+                command.Parameters.Add("@nick", MySqlDbType.VarChar).Value = NickField.Text;
+                command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = MailField.Text;
+                adapter.SelectCommand = command;
+                adapter.Fill(table);
 
 
+                if (table.Rows.Count > 0)
+                {
+                    string existingNick = table.Rows[0]["nick"].ToString();
+                    string existingMail = table.Rows[0]["mail"].ToString();
+                    if (existingNick == NickField.Text)
+                    {
+                        MessageBox.Show("Такой логин уже есть. Введите новый", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return true;
+                    }
+                    if (existingMail == MailField.Text)
+                    {
+                        MessageBox.Show("Такая почта уже есть. Введите новый", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return true;
+                    }
+                    if (existingNick == NickField.Text && existingMail == MailField.Text)
+                    {
+                        MessageBox.Show("Такая учётная запись есть!", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return true;
+                    }
+
+                }
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                {
+                    MessageBox.Show($"Ошибка при проверка пользователя:\n{ex.Message}.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return true;
+                }
+
+
+            }
+        }
     }
 }

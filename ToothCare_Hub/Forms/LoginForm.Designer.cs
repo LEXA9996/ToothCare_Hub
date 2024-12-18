@@ -150,6 +150,7 @@
             EnterAccount.TabIndex = 1;
             EnterAccount.Text = "Войти";
             EnterAccount.UseVisualStyleBackColor = true;
+            EnterAccount.Click += EnterAccount_Click;
             // 
             // PasswordInput
             // 
