@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ToothCare_Hub.MainFiles
 {
@@ -17,6 +18,11 @@ namespace ToothCare_Hub.MainFiles
                 byte[] hash = cha128.ComputeHash(passwordBytes);
                 return Convert.ToBase64String(hash);
             }
+        }
+        public bool Verify(string password, string hashedPassword)
+        {
+            string hashedInputPassword = Hash(password);
+            return hashedInputPassword == hashedPassword;
         }
     }
 }

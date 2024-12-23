@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ToothCare_Hub.MainFiles;
 
 namespace ToothCare_Hub
 {
@@ -132,7 +134,37 @@ namespace ToothCare_Hub
 
         private void EnterAccount_Click(object sender, EventArgs e)
         {
+            var db = new DB();
+            var table = new DataTable();
+            var adapter = new MySqlDataAdapter();
+            var hashing = new Hashing();
+            String loginUser = LoginInput.Text;
+            String passwordUser = PasswordInput.Text;
+            var command = new MySqlCommand("SELECT * FROM `users` WHERE `nick` = @input OR `mail` = @input AND `password` = @pass", db.getConnection());
+            command.Parameters.Add("@input", MySqlDbType.VarChar).Value = loginUser;
+            var HashPassword = hashing.Hash(passwordUser);
+            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = HashPassword;
+            adapter.SelectCommand = command;
+            adapter.Fill(table);
 
+            if (table.Rows.Count > 0)
+            {
+
+                string storedHashedPassword = table.Rows[0]["password"].ToString();
+
+                if (hashing.Verify(passwordUser, storedHashedPassword))
+                {
+                    MessageBox.Show("Успешный вход");
+                }
+                else
+                {
+                    MessageBox.Show("Неверный пароль!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пользователь не найден");
+            }
         }
 
     }
