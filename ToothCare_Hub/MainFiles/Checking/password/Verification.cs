@@ -1,13 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ToothCare_Hub.MainFiles;
 
-namespace ToothCare_Hub
+namespace ToothCare_Hub.MainFiles.Checking.password
 {
     public class Verification
     {
@@ -37,9 +31,9 @@ namespace ToothCare_Hub
         }
 
         //
-
+        #region/Check_Sql
         // 2. Проверка БД на наличие записей
-        public Boolean isFirstUser()
+        public bool isFirstUser()
         {
             string query = "SELECT COUNT(*) FROM users";
             using (MySqlCommand command = new MySqlCommand(query, database.getConnection()))
@@ -62,9 +56,9 @@ namespace ToothCare_Hub
                     return false;
             }
         }
-
+        #endregion
         // 4. Проверка БД на дубликат логина
-        public Boolean isUserExist()
+        public bool isUserExist()
         {
             string query = "SELECT * FROM `users` WHERE `nick` = @Login";
             using (MySqlCommand command = new MySqlCommand(query, database.getConnection()))
@@ -75,14 +69,14 @@ namespace ToothCare_Hub
 
                 if (table.Rows.Count > 0)
                 {
-                    MessageBox.Show("Такий логін вже існує", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Такой логин уже существует.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return true;
                 }
                 else
                     return false;
             }
         }
-        public Boolean isEmailExist()
+        public bool isEmailExist()
         {
             string query = "SELECT * FROM `users` WHERE `mail` = @Email";
             using (MySqlCommand command = new MySqlCommand(query, database.getConnection()))
@@ -93,7 +87,7 @@ namespace ToothCare_Hub
 
                 if (table.Rows.Count > 0)
                 {
-                    MessageBox.Show("Такая почта существует", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Такая почта уже существует", "Предупеждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return true;
                 }
                 else
@@ -104,24 +98,24 @@ namespace ToothCare_Hub
 
 
 
-        public Boolean checkLoginAndPassword()
+        public bool checkLoginAndPassword()
         {
-            if (this.Login == this.Password)
+            if (Login == Password)
             {
-                MessageBox.Show("Паролм і логін не повинні збігатися", "Попередження",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Пароль и логин не должны совпадать", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             else
                 return false;
         }
 
-        public Boolean checkPassword()
+        public bool checkPassword()
         {
-            if (this.Password != this.RepeatPassword)
+            if (Password != RepeatPassword)
             {
-                MessageBox.Show("Паролі не співпадають", "Попередження",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Пароли не совпадают", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return true;
             }
             else

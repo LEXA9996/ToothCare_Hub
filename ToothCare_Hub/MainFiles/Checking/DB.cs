@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToothCare_Hub.MainFiles
+namespace ToothCare_Hub.MainFiles.Checking
 {
     internal class DB
     {

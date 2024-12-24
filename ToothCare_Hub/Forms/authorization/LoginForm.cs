@@ -134,10 +134,10 @@ namespace ToothCare_Hub
 
         private void EnterAccount_Click(object sender, EventArgs e)
         {
-            var db = new DB();
+            var db = new MainFiles.Checking.DB();
             var table = new DataTable();
             var adapter = new MySqlDataAdapter();
-            var hashing = new Hashing();
+            var hashing = new MainFiles.Checking.password.Hashing();
             String loginUser = LoginInput.Text;
             String passwordUser = PasswordInput.Text;
             var command = new MySqlCommand("SELECT * FROM `users` WHERE `nick` = @input OR `mail` = @input AND `password` = @pass", db.getConnection());

@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ToothCare_Hub.MainFiles;
+using ToothCare_Hub.MainFiles.Checking;
+using ToothCare_Hub.MainFiles.Checking.password;
 
 namespace ToothCare_Hub
 {
@@ -223,55 +225,40 @@ namespace ToothCare_Hub
         #region/error
         private void CreateAccountButton_Click(object sender, EventArgs e)
         {
-            if (NameField.Text == "Введите имя")
+            if (
+            NameField.Text == "Введите имя"
+            || SurnameField.Text == "Введите фамилию"
+            || MailField.Text == "Введите свою электронную почту"
+            || NickField.Text == "Придумайте свой логин"
+            || PassField.Text == "Придумайте пароль"
+            || CopyPassField.Text == "Повторите пароль"
+            )
             {
-                MessageBox.Show("Вы забыли вести своё имя.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Вы указали не все данные.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (SurnameField.Text == "Введите фамилию")
-            {
-                MessageBox.Show("Вы забыли вести свою фамилию.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (MailField.Text == "Введите свою электронную почту")
-            {
-                MessageBox.Show("Вы забыли вести свою электронную почту.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (NickField.Text == "Придумайте свой логин")
-            {
-                MessageBox.Show("Вы забыли вести свой логин.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (PassField.Text == "Придумайте пароль")
-            {
-                MessageBox.Show("Вы забыли вести пароль.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (CopyPassField.Text == "Повторите пароль")
-            {
-                MessageBox.Show("Вы забыли повторить пароль.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if (PassField.Text != CopyPassField.Text)
-            {
-                MessageBox.Show("Пароли не совпадают.\nВведите пароль заного.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            if(isUserExist())
-                return;
+            var verification = new Verification(NickField.Text, PassField.Text, CopyPassField.Text, MailField.Text);
+
+            if (verification.checkPassword()) return;
+            if (verification.isUserExist()) return;
+            if(verification.isEmailExist()) return;
+            if(verification.checkLoginAndPassword()) return;
+
             #endregion
 
+
+
             DB db = new DB();
+            var hashing = new MainFiles.Checking.password.Hashing();
             MySqlCommand command = new MySqlCommand("INSERT INTO `users` (`name`, `surname`, `nick`, `mail`, `password`) VALUES (@name, @surname, @nick, @mail, @pass);", db.getConnection());
             command.Parameters.Add("@name", MySqlDbType.VarChar).Value = NameField.Text;
             command.Parameters.Add("@surname", MySqlDbType.VarChar).Value = SurnameField.Text;
             command.Parameters.Add("@nick", MySqlDbType.VarChar).Value = NickField.Text;
             command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = MailField.Text;
-            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = CopyPassField.Text;
+            command.Parameters.Add("@pass", MySqlDbType.VarChar).Value = hashing.Hash(CopyPassField.Text);
 
             db.openConnection();
-
+            
             if (command.ExecuteNonQuery() == 1)
             {
                 MessageBox.Show("Вы успешно зарегестрировались! Ввойдите теперь свой аккаунт", "Операция прошла успешно.", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -286,46 +273,6 @@ namespace ToothCare_Hub
             }
             db.closeConnection();
 
-        }
-        public bool isUserExist()
-        {
-            try
-            {
-                DB db = new DB();
-                DataTable table = new DataTable();
-                MySqlDataAdapter adapter = new MySqlDataAdapter();
-                MySqlCommand command = new MySqlCommand("SELECT * FROM `users` WHERE `nick`=@nick OR `mail`=@mail", db.getConnection());
-                command.Parameters.Add("@nick", MySqlDbType.VarChar).Value = NickField.Text;
-                command.Parameters.Add("@mail", MySqlDbType.VarChar).Value = MailField.Text;
-
-                adapter.SelectCommand = command;
-                adapter.Fill(table);
-
-
-                if (table.Rows.Count > 0)
-                {
-                    if (table.Rows[0]["nick"].ToString() == NickField.Text)
-                    {
-                        MessageBox.Show("Такой логин уже есть. Введите новый", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return true;
-                    }
-                    if (table.Rows[0]["mail"].ToString() == MailField.Text)
-                    {
-                        MessageBox.Show("Такая почта уже есть. Введите новый", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return true;
-                    }
-                }
-                    return false;
-            }
-            catch (Exception ex)
-            {
-                {
-                    MessageBox.Show($"Ошибка при проверка пользователя:\n{ex.Message}.", "Произошла ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return true;
-                }
-
-
-            }
         }
     }
 }
